@@ -1,0 +1,10 @@
+import requests
+from bs4 import BeautifulSoup
+
+url = 'https://www.scrapingcourse.com/ecommerce'
+
+response = requests.get(url, timeout=10)
+response.raise_for_status()  # Raises an error for non-200 status codes
+soup = BeautifulSoup(response.text, 'html.parser')
+
+print(soup.find_all('a[href]'))
