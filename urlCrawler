@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
 
-url = 'https://www.scrapingcourse.com/ecommerce'
+url = 'https://www.codewars.com'
 
 response = requests.get(url, timeout=10)
 response.raise_for_status()  # Raises an error for non-200 status codes
@@ -10,11 +10,11 @@ soup = BeautifulSoup(response.text, 'html.parser')
 
 unvisited_links = []
 
-links = soup.select('a[href]')
+links = soup.find_all('a', href = True)
 
 print(response.status_code)
 for link in links:
-    if 'https://' in link.get('href'):
+    if 'https://' or 'http://' in link.get('href') and link not in unvisited_links:
         unvisited_links.append(link.get('href'))
     
 print('\n'.join(unvisited_links))
