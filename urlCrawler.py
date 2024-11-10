@@ -1,33 +1,22 @@
 import requests
 from bs4 import BeautifulSoup
 
-user_url = input('Enter url: ')
+url = input('Enter url: ')
 
 # Function used to check format and properly use http is necessary.
-def verify_url(_input):
-    http_head = 'https://'
-    www_head = 'www.'
-    
-    #Checking whether http and www are used, if not, both are or one is added.
-    if www_head and http_head not in _input:
-        if www_head not in _input:
-            _input = www_head + _input
-        if http_head not in _input:
-            _input = http_head + _input
-       
-    #Seperate check for www in the url.  
-    if www_head not in _input:
-        parts = _input.split('://')
-        parts[0] += '://'
-        parts.insert(1, 'www.')
-        _input = ''.join(parts)
+def verify_url(url):
+    if '://' not in url:
+        url = 'https://' + url
         
-    return _input
+    if not url.startswith('www.'):
+        url = url.replace('://', '://www.', 1)
+        
+    return url
 
-url = verify_url(user_url) #Calling the url format function.
+url_f = verify_url(url) #Calling the url format function.
 unvisited_links = []
 visited_links = []
-unvisited_links.append(url)
+unvisited_links.append(url_f)
             
 while len(unvisited_links) > 0:
     navi = unvisited_links[0]
